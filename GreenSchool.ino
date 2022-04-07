@@ -2,30 +2,32 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 
-
-
-#define STASSID "SSID"
-#define STAPSK  "PASSWORD"
+//#define STASSID "SSID"
+//#define STAPSK  "PASSWORD"
 
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
 
-int CO2Val=0;
+int CO2Val = 0, Temp1Val=0;
 
 ESP8266WebServer server(80);
 
 
 void handleRoot() {
-      server.sendHeader("Access-Control-Allow-Origin", "*");
-
+  server.sendHeader("Access-Control-Allow-Origin", "*");
   server.send(200, "text/plain", "Connected");
 }
-void handle_CO2_current() {
-      server.sendHeader("Access-Control-Allow-Origin", "*");
 
+void handle_CO2_current() {
+  server.sendHeader("Access-Control-Allow-Origin", "*");
   server.send(200, "text/plain", String(CO2Val));
   CO2Val++; //for test purpose
+}
+void handle_Temp1_current() {
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.send(200, "text/plain", String(Temp1Val));
+  Temp1Val++; //for test purpose
 }
 
 void setup(void) {
@@ -47,7 +49,8 @@ void setup(void) {
 
 
   server.on("/", handleRoot);
-  server.on("/CO2_current",handle_CO2_current );
+  server.on("/CO2_current", handle_CO2_current ); 
+  server.on("/Temp1_current", handle_Temp1_current );
 
 
 
